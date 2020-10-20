@@ -22,7 +22,7 @@ const MongoDbStore = require('connect-mongo')(session);
 
 const dbUrl = process.env.DB_URL;
 
-mongoose.connect(dburl,{
+mongoose.connect(dbUrl,{
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -51,7 +51,7 @@ app.use(mongoSanitize({
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
 const store = new MongoDbStore({
-    url: dburl,
+    url: dbUrl,
     secret,
     touchAfter: 24 * 60 * 60
 });
@@ -111,7 +111,7 @@ app.use((err, req, res, next)=>{
     res.status(statusCode).render('error', { err });
 });
 
-
-app.listen(3000, ()=>{
-    console.log('Serving on port 3000')
+const port = process.env.PORT || 3000
+app.listen(port, ()=>{
+    console.log(`Serving on port ${port}`);
 });
